@@ -354,3 +354,42 @@ body {
     rgba(255,255,255,0.3) 50%, 
     rgba(255,255,255,0) 100%);
 }
+
+/* GitHub Button in Popup */
+.refine-popup-github-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--refine-space-2);
+  padding: var(--refine-space-2) var(--refine-space-3);
+  background: linear-gradient(135deg, #24292e 0%, #1a1e22 100%);
+  color: white;
+  border: none;
+  border-radius: var(--refine-radius-md);
+  font-size: var(--refine-text-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--refine-transition-fast);
+  text-decoration: none;
+  font-family: inherit;
+  margin-top: var(--refine-space-2);
+}
+
+.refine-popup-github-btn:hover {
+  background: linear-gradient(135deg, #1a1e22 0%, #0d1117 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(36, 41, 46, 0.3);
+}
+
+.refine-popup-github-btn:focus {
+  outline: 2px solid var(--refine-primary-400);
+  outline-offset: 2px;
+}
+
+.refine-popup-github-btn svg {
+  transition: transform var(--refine-transition-fast);
+}
+
+.refine-popup-github-btn:hover svg {
+  transform: scale(1.1);
+}

@@ -67,6 +67,10 @@ class RefineBookmarkManager {
         });
         
         // Header actions
+        document.getElementById('githubBtn').addEventListener('click', () => {
+            this.openGitHubRepository();
+        });
+        
         document.getElementById('refreshBtn').addEventListener('click', () => {
             this.loadBookmarks();
         });
@@ -458,6 +462,12 @@ class RefineBookmarkManager {
     openBookmark(url) {
         chrome.tabs.create({ url, active: false });
         this.showToast('Bookmark opened in new tab', 'success');
+    }
+    
+    openGitHubRepository() {
+        const gitHubUrl = 'https://github.com/parsabanaei/BookmarkX';
+        chrome.tabs.create({ url: gitHubUrl, active: true });
+        this.showToast('Opening BookmarkX repository...', 'success');
     }
     
     copyToClipboard(text) {

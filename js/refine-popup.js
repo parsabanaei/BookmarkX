@@ -35,6 +35,14 @@ class RefinePopup {
             });
         }
         
+        // GitHub button
+        const githubBtn = document.getElementById('githubPopupBtn');
+        if (githubBtn) {
+            githubBtn.addEventListener('click', () => {
+                this.openGitHubRepository();
+            });
+        }
+        
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             this.handleKeyboardShortcuts(e);
@@ -144,6 +152,12 @@ class RefinePopup {
                 this.closePopup();
             }
         });
+    }
+    
+    openGitHubRepository() {
+        const gitHubUrl = 'https://github.com/parsabanaei/BookmarkX';
+        chrome.tabs.create({ url: gitHubUrl, active: true });
+        this.closePopup();
     }
     
     closePopup() {
