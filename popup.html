@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookmarkX</title>
+    <link rel="stylesheet" href="css/refine-popup.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="refine-popup">
+        <div class="refine-popup-header">
+            <div class="refine-popup-brand">
+                <div class="refine-popup-logo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <h1 class="refine-popup-title">BookmarkX</h1>
+                <span class="refine-popup-version">v1.0</span>
+            </div>
+        </div>
+        
+        <div class="refine-popup-content">
+            <div class="refine-popup-description">
+                <p>Quick, easy access to all your bookmarks.</p>
+            </div>
+            
+            <div class="refine-popup-stats">
+                <div class="refine-popup-stat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span id="popupBookmarkCount">Loading...</span>
+                </div>
+                <div class="refine-popup-stat">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                    </svg>
+                    <span id="popupFolderCount">Loading...</span>
+                </div>
+            </div>
+            
+            <button id="openManager" class="refine-popup-btn refine-popup-btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15,3 21,3 21,9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+                <span>Open Bookmark Manager</span>
+            </button>
+            
+            <!-- <div class="refine-popup-quick-actions">
+                <button id="quickSearch" class="refine-popup-btn refine-popup-btn-ghost">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="M21 21L16.65 16.65"/>
+                    </svg>
+                    <span>Quick Search</span>
+                </button>
+                <button id="recentBookmarks" class="refine-popup-btn refine-popup-btn-ghost">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                    <span>Recent</span>
+                </button>
+            </div> -->
+        </div>
+        
+        <div class="refine-popup-footer">
+            <div class="refine-popup-footer-text">
+                <!-- <span>Built with Refine UI principles</span> -->
+            </div>
+        </div>
+    </div>
+    <script src="js/refine-popup.js"></script>
+</body>
+</html>

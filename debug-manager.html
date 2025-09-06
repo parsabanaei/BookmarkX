@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookmarkX Debug Manager</title>
+    <link rel="stylesheet" href="css/refine-manager.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Debug styles to highlight layout issues */
+        .refine-app {
+            background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        .refine-sidebar {
+            background: rgba(255, 0, 0, 0.1) !important;
+            border: 2px solid red !important;
+        }
+        .refine-main {
+            background: rgba(0, 255, 0, 0.1) !important;
+            border: 2px solid green !important;
+        }
+        .debug-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-info">
+        <div>Debug Mode Active</div>
+        <div>Sidebar: <span id="sidebar-status">Loading...</span></div>
+        <div>Main: <span id="main-status">Loading...</span></div>
+        <div>Width: <span id="window-width">Loading...</span></div>
+    </div>
+
+    <div id="app" class="refine-app">
+        <!-- Refine-style Sidebar Navigation -->
+        <aside class="refine-sidebar">
+            <div class="refine-sidebar-header">
+                <div class="refine-brand">
+                    <div class="refine-logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <span class="refine-brand-text">BookmarkX</span>
+                    <span class="refine-version">DEBUG</span>
+                </div>
+            </div>
+            
+            <nav class="refine-nav">
+                <div class="refine-nav-group">
+                    <div class="refine-nav-item active">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span>All Bookmarks</span>
+                        <span class="refine-badge">42</span>
+                    </div>
+                    
+                    <div class="refine-nav-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                        <span>Recent</span>
+                    </div>
+                </div>
+                
+                <div class="refine-nav-section">
+                    <div class="refine-nav-title">Folders</div>
+                    <div class="refine-nav-folders">
+                        <div class="refine-nav-item" style="padding-left: 2rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            <span>Work</span>
+                            <span class="refine-badge">15</span>
+                        </div>
+                        <div class="refine-nav-item" style="padding-left: 2rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            <span>Personal</span>
+                            <span class="refine-badge">27</span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="refine-sidebar-footer">
+                <button class="refine-theme-toggle">
+                    <svg class="theme-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <span>Toggle Theme</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="refine-main">
+            <!-- Refine Header with Breadcrumbs -->
+            <header class="refine-header">
+                <div class="refine-breadcrumb">
+                    <span class="refine-breadcrumb-item">Dashboard</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18L15 12L9 6"/>
+                    </svg>
+                    <span class="refine-breadcrumb-item active">Bookmarks</span>
+                </div>
+                
+                <div class="refine-header-actions">
+                    <button class="refine-btn refine-btn-ghost">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                        </svg>
+                        Refresh
+                    </button>
+                    
+                    <button class="refine-btn refine-btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Add Bookmark
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Container -->
+            <div class="refine-content">
+                <!-- Search and Filter Bar -->
+                <div class="refine-toolbar">
+                    <div class="refine-search-group">
+                        <div class="refine-input-wrapper">
+                            <svg class="refine-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="M21 21L16.65 16.65"/>
+                            </svg>
+                            <input type="text" placeholder="Search bookmarks..." class="refine-input">
+                        </div>
+                    </div>
+                    
+                    <div class="refine-filters">
+                        <div class="refine-select-wrapper">
+                            <select class="refine-select">
+                                <option>Latest First</option>
+                                <option>Oldest First</option>
+                            </select>
+                            <svg class="refine-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9L12 15L18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <div class="refine-view-toggle">
+                        <div class="refine-button-group">
+                            <button class="refine-btn refine-btn-sm active">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="8" y1="6" x2="21" y2="6"/>
+                                    <line x1="8" y1="12" x2="21" y2="12"/>
+                                    <line x1="8" y1="18" x2="21" y2="18"/>
+                                    <line x1="3" y1="6" x2="3.01" y2="6"/>
+                                    <line x1="3" y1="12" x2="3.01" y2="12"/>
+                                    <line x1="3" y1="18" x2="3.01" y2="18"/>
+                                </svg>
+                            </button>
+                            <button class="refine-btn refine-btn-sm">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"/>
+                                    <rect x="14" y="3" width="7" height="7"/>
+                                    <rect x="14" y="14" width="7" height="7"/>
+                                    <rect x="3" y="14" width="7" height="7"/>
+                                </svg>
+                            </button>
+                            <button class="refine-btn refine-btn-sm">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="refine-stats">
+                    <div class="refine-results-info">
+                        <span class="refine-count">42 bookmarks</span>
+                    </div>
+                </div>
+
+                <!-- Data Display -->
+                <div class="refine-data-container">
+                    <div class="refine-data">
+                        <!-- Sample Bookmark Items -->
+                        <div class="refine-list">
+                            <div class="refine-list-item">
+                                <div class="refine-list-favicon">
+                                    <img src="https://www.google.com/s2/favicons?domain=github.com&sz=32" alt="">
+                                </div>
+                                <div class="refine-list-content">
+                                    <div class="refine-list-title">GitHub - Sample Repository</div>
+                                    <div class="refine-list-url">https://github.com/user/repo</div>
+                                    <div class="refine-list-meta">
+                                        <span>github.com</span>
+                                        <span class="refine-list-folder">Work</span>
+                                        <span>2 days ago</span>
+                                    </div>
+                                </div>
+                                <div class="refine-list-actions">
+                                    <button class="refine-list-action">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                            <polyline points="15,3 21,3 21,9"/>
+                                            <line x1="10" y1="14" x2="21" y2="3"/>
+                                        </svg>
+                                    </button>
+                                    <button class="refine-list-action">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="refine-list-item">
+                                <div class="refine-list-favicon">
+                                    <img src="https://www.google.com/s2/favicons?domain=stackoverflow.com&sz=32" alt="">
+                                </div>
+                                <div class="refine-list-content">
+                                    <div class="refine-list-title">Stack Overflow - JavaScript Question</div>
+                                    <div class="refine-list-url">https://stackoverflow.com/questions/example</div>
+                                    <div class="refine-list-meta">
+                                        <span>stackoverflow.com</span>
+                                        <span class="refine-list-folder">Development</span>
+                                        <span>1 week ago</span>
+                                    </div>
+                                </div>
+                                <div class="refine-list-actions">
+                                    <button class="refine-list-action">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                            <polyline points="15,3 21,3 21,9"/>
+                                            <line x1="10" y1="14" x2="21" y2="3"/>
+                                        </svg>
+                                    </button>
+                                    <button class="refine-list-action">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="refine-list-item">
+                                <div class="refine-list-favicon">
+                                    <img src="https://www.google.com/s2/favicons?domain=docs.google.com&sz=32" alt="">
+                                </div>
+                                <div class="refine-list-content">
+                                    <div class="refine-list-title">Google Docs - Project Plan</div>
+                                    <div class="refine-list-url">https://docs.google.com/document/example</div>
+                                    <div class="refine-list-meta">
+                                        <span>docs.google.com</span>
+                                        <span class="refine-list-folder">Work</span>
+                                        <span>3 days ago</span>
+                                    </div>
+                                </div>
+                                <div class="refine-list-actions">
+                                    <button class="refine-list-action">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                            <polyline points="15,3 21,3 21,9"/>
+                                            <line x1="10" y1="14" x2="21" y2="3"/>
+                                        </svg>
+                                    </button>
+                                    <button class="refine-list-action">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Debug script to show layout information
+        function updateDebugInfo() {
+            const sidebar = document.querySelector('.refine-sidebar');
+            const main = document.querySelector('.refine-main');
+            const windowWidth = window.innerWidth;
+            
+            document.getElementById('sidebar-status').textContent = 
+                sidebar ? `${Math.round(sidebar.offsetWidth)}px` : 'Not found';
+            document.getElementById('main-status').textContent = 
+                main ? `${Math.round(main.offsetWidth)}px` : 'Not found';
+            document.getElementById('window-width').textContent = `${windowWidth}px`;
+        }
+        
+        // Update debug info on load and resize
+        window.addEventListener('load', updateDebugInfo);
+        window.addEventListener('resize', updateDebugInfo);
+        
+        // Theme toggle functionality
+        document.querySelector('.refine-theme-toggle').addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        });
+        
+        console.log('Debug manager loaded successfully');
+        console.log('Sidebar element:', document.querySelector('.refine-sidebar'));
+        console.log('Main element:', document.querySelector('.refine-main'));
+        console.log('App element:', document.querySelector('.refine-app'));
+    </script>
+</body>
+</html>

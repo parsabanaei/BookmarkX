@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookmarkX Manager</title>
+    <link rel="stylesheet" href="css/refine-manager.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app" class="refine-app">
+        <!-- Refine-style Sidebar Navigation -->
+        <aside class="refine-sidebar">
+            <div class="refine-sidebar-header">
+                <div class="refine-brand">
+                    <div class="refine-logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <span class="refine-brand-text">BookmarkX</span>
+                    <span class="refine-version">v1.0</span>
+                </div>
+            </div>
+            
+            <nav class="refine-nav">
+                <div class="refine-nav-group">
+                    <div class="refine-nav-item active">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span>All Bookmarks</span>
+                        <span class="refine-badge" id="totalBadge">0</span>
+                    </div>
+                    
+                    <div class="refine-nav-item" id="recentNav">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                        <span>Recent</span>
+                    </div>
+                </div>
+                
+                <div class="refine-nav-section">
+                    <div class="refine-nav-title">Folders</div>
+                    <div id="folderNav" class="refine-nav-folders">
+                        <!-- Dynamic folder navigation -->
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="refine-sidebar-footer">
+                <button id="themeToggle" class="refine-theme-toggle">
+                    <svg class="theme-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                    <svg class="theme-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <span>Toggle Theme</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="refine-main">
+            <!-- Refine Header with Breadcrumbs -->
+            <header class="refine-header">
+                <div class="refine-breadcrumb">
+                    <span class="refine-breadcrumb-item">Dashboard</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18L15 12L9 6"/>
+                    </svg>
+                    <span class="refine-breadcrumb-item active">Bookmarks</span>
+                </div>
+                
+                <div class="refine-header-actions">
+                    <button class="refine-btn refine-btn-ghost" id="refreshBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                        </svg>
+                        Refresh
+                    </button>
+                    
+                    <button class="refine-btn refine-btn-primary" id="addBookmarkBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Add Bookmark
+                    </button>
+                </div>
+            </header>
+
+            <!-- Refine Content Container -->
+            <div class="refine-content">
+                <!-- Search and Filter Bar -->
+                <div class="refine-toolbar">
+                    <div class="refine-search-group">
+                        <div class="refine-input-wrapper">
+                            <svg class="refine-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="M21 21L16.65 16.65"/>
+                            </svg>
+                            <input type="text" id="searchInput" placeholder="Search bookmarks..." class="refine-input">
+                            <button id="clearSearch" class="refine-input-clear hidden">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="refine-filters">
+                        <div class="refine-select-wrapper">
+                            <select id="sortSelect" class="refine-select">
+                                <option value="dateDesc">Latest First</option>
+                                <option value="dateAsc">Oldest First</option>
+                            </select>
+                            <svg class="refine-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9L12 15L18 9"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="refine-select-wrapper">
+                            <select id="dateFilter" class="refine-select">
+                                <option value="">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="week">Past Week</option>
+                                <option value="month">Past Month</option>
+                                <option value="year">Past Year</option>
+                            </select>
+                            <svg class="refine-select-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9L12 15L18 9"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Stats and Results -->
+                <div class="refine-stats">
+                    <div class="refine-results-info">
+                        <span id="bookmarkCount" class="refine-count">0 bookmarks</span>
+                        <span id="filteredCount" class="refine-filtered hidden"></span>
+                    </div>
+                </div>
+
+                <!-- Data Display Area -->
+                <div class="refine-data-container">
+                    <!-- Loading State -->
+                    <div id="loadingState" class="refine-loading">
+                        <div class="refine-spinner">
+                            <div class="refine-spinner-ring"></div>
+                        </div>
+                        <h3>Loading bookmarks...</h3>
+                        <p>Please wait while we fetch your bookmark data</p>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="refine-empty hidden">
+                        <div class="refine-empty-icon">
+                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <h3>No bookmarks found</h3>
+                        <p>Start saving bookmarks to see them here, or adjust your search filters.</p>
+                        <button class="refine-btn refine-btn-primary" id="addFirstBookmark">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Add Your First Bookmark
+                        </button>
+                    </div>
+
+                    <!-- Bookmarks Data Display -->
+                    <div id="bookmarksContainer" class="refine-data hidden">
+                        <!-- List View -->
+                        <div id="bookmarksList" class="refine-list">
+                            <!-- Bookmarks will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Refine Modal -->
+        <div id="errorModal" class="refine-modal hidden">
+            <div class="refine-modal-overlay"></div>
+            <div class="refine-modal-content">
+                <div class="refine-modal-header">
+                    <h3>Error</h3>
+                    <button id="closeError" class="refine-modal-close">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="refine-modal-body">
+                    <div class="refine-alert refine-alert-error">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                        <p id="errorMessage">An error occurred while loading bookmarks.</p>
+                    </div>
+                </div>
+                <div class="refine-modal-footer">
+                    <button id="retryButton" class="refine-btn refine-btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                        </svg>
+                        Retry
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bookmark Modal -->
+    <div id="addBookmarkModal" class="refine-modal">
+        <div class="refine-modal-overlay"></div>
+        <div class="refine-modal-content">
+            <div class="refine-modal-header">
+                <h2 class="refine-modal-title">Add New Bookmark</h2>
+                <button class="refine-modal-close" id="closeAddModal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="addBookmarkForm" class="refine-modal-form">
+                <div class="refine-form-group">
+                    <label class="refine-form-label" for="bookmarkTitle">
+                        Title *
+                    </label>
+                    <input 
+                        type="text" 
+                        id="bookmarkTitle" 
+                        class="refine-form-input" 
+                        placeholder="Enter bookmark title"
+                        required
+                    />
+                    <div class="refine-form-error" id="titleError"></div>
+                </div>
+                
+                <div class="refine-form-group">
+                    <label class="refine-form-label" for="bookmarkUrl">
+                        URL *
+                    </label>
+                    <input 
+                        type="url" 
+                        id="bookmarkUrl" 
+                        class="refine-form-input" 
+                        placeholder="https://example.com"
+                        required
+                    />
+                    <div class="refine-form-error" id="urlError"></div>
+                </div>
+                
+                <div class="refine-form-group">
+                    <label class="refine-form-label" for="bookmarkFolder">
+                        Folder
+                    </label>
+                    <select id="bookmarkFolder" class="refine-form-select">
+                        <option value="">Select folder (optional)</option>
+                        <option value="1">Bookmarks Bar</option>
+                        <option value="2">Other Bookmarks</option>
+                    </select>
+                </div>
+                
+                <div class="refine-modal-actions">
+                    <button type="button" class="refine-btn refine-btn-ghost" id="cancelAddBookmark">
+                        Cancel
+                    </button>
+                    <button type="submit" class="refine-btn refine-btn-primary" id="saveBookmark">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        Save Bookmark
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteBookmarkModal" class="refine-delete-modal">
+        <div class="refine-delete-modal-overlay"></div>
+        <div class="refine-delete-modal-content">
+            <div class="refine-delete-modal-header">
+                <div class="refine-delete-modal-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3,6 5,6 21,6"/>
+                        <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"/>
+                        <line x1="10" y1="11" x2="10" y2="17"/>
+                        <line x1="14" y1="11" x2="14" y2="17"/>
+                    </svg>
+                </div>
+                <h2 class="refine-delete-modal-title">Delete Bookmark</h2>
+                <p class="refine-delete-modal-message">
+                    Are you sure you want to delete 
+                    <span class="refine-delete-modal-bookmark" id="deleteBookmarkName"></span>?
+                    This action cannot be undone.
+                </p>
+            </div>
+            
+            <div class="refine-delete-modal-actions">
+                <button type="button" class="refine-btn refine-btn-ghost" id="cancelDeleteBookmark">
+                    Cancel
+                </button>
+                <button type="button" class="refine-btn refine-btn-danger" id="confirmDeleteBookmark">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3,6 5,6 21,6"/>
+                        <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"/>
+                        <line x1="10" y1="11" x2="10" y2="17"/>
+                        <line x1="14" y1="11" x2="14" y2="17"/>
+                    </svg>
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Bookmark Modal -->
+    <div id="editBookmarkModal" class="refine-modal">
+        <div class="refine-modal-overlay"></div>
+        <div class="refine-modal-content">
+            <div class="refine-modal-header">
+                <h2 class="refine-modal-title">Edit Bookmark</h2>
+                <button class="refine-modal-close" id="closeEditModal">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="editBookmarkForm" class="refine-modal-form">
+                <div class="refine-form-group">
+                    <label class="refine-form-label" for="editBookmarkTitle">
+                        Title *
+                    </label>
+                    <input 
+                        type="text" 
+                        id="editBookmarkTitle" 
+                        class="refine-form-input" 
+                        placeholder="Enter bookmark title"
+                        required
+                    />
+                    <div class="refine-form-error" id="editTitleError"></div>
+                </div>
+                
+                <div class="refine-form-group">
+                    <label class="refine-form-label" for="editBookmarkUrl">
+                        URL (read-only)
+                    </label>
+                    <input 
+                        type="url" 
+                        id="editBookmarkUrl" 
+                        class="refine-form-input refine-form-input-readonly" 
+                        readonly
+                        tabindex="-1"
+                    />
+                </div>
+                
+                <div class="refine-modal-actions">
+                    <button type="button" class="refine-btn refine-btn-ghost" id="cancelEditBookmark">
+                        Cancel
+                    </button>
+                    <button type="submit" class="refine-btn refine-btn-primary" id="saveEditBookmark">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/refine-manager.js"></script>
+</body>
+</html>
