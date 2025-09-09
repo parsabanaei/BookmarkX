@@ -1,11 +1,10 @@
 {
   "manifest_version": 3,
   "name": "BookmarkX",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Advanced bookmark manager with powerful search and filtering capabilities",
   "permissions": [
     "bookmarks",
-    "storage",
     "activeTab"
   ],
   "host_permissions": [
